@@ -7,4 +7,4 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_DEBUG_FLAGS "-O0 -Wall")
 set(CMAKE_CXX_RELEASE_FLAGS "-O2")
 
-add_executable(main src/main.cpp)
+add_executable(main src/main.cpp "src/server.h" "src/client.h")

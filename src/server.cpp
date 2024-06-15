@@ -13,6 +13,7 @@
 #define DEFAULT_PORT "27015"
 
 int main (int argc, char** argv) {
+#ifdef _WIN32
     WSADATA wsa_data;
     int i_result;
     i_result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
@@ -69,8 +70,6 @@ int main (int argc, char** argv) {
         WSACleanup();
         return 1;
     }
-
-
-
+#endif // _WIN32
     return 0;
 }

@@ -54,6 +54,23 @@ int main (int argc, char** argv) {
 
     freeaddrinfo(result);
 
+    if (listen(listen_socket, SOMAXCONN) == SOCKET_ERROR) {
+        std::cout << "listen failed with error: " << WSAGetLastError() << "\n";
+        closesocket(listen_socket);
+        WSACleanup();
+        return 1;
+    }
+
+    SOCKET client_socket;
+    client_socket = accept(listen_socket, nullptr, nullptr);
+    if (client_socket == INVALID_SOCKET) {
+        std::cout << "accept failed: " << WSAGetLastError() << "\n";
+        closesocket(listen_socket);
+        WSACleanup();
+        return 1;
+    }
+
+
 
     return 0;
 }

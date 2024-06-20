@@ -1,13 +1,24 @@
-#include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __linux__
 #include <sys/types.h>
+#include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#endif
+
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdio.h>
+
+#pragma comment(lib, "Ws2_32.lib")
+#endif
+
 
 #define BACKLOG 10
 
@@ -16,6 +27,17 @@ int main(int argc, char* argv[]) {
         printf("usage: ./server port\n");
         exit(1);
     }
+
+#ifdef _WIN32
+    WSADATA wsa_data;
+    int i_result;
+
+    i_result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
+    if (i_result != 0) {
+        printf("WSAStartup failed: %d\n", i_result);
+        return 1;
+    }
+#endif
 
     struct addrinfo hints;
     struct addrinfo* results;
